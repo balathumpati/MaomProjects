@@ -52,7 +52,16 @@
   }
   @media (prefers-reduced-motion:reduce){ .orb{animation:none;} }
 
-  header{position:relative;z-index:1;text-align:center;padding:5.5rem 1.5rem 3rem;}
+  header{position:relative;z-index:1;text-align:center;padding:3.2rem 1.5rem 3rem;}
+  .uni-bar{
+    display:flex;align-items:center;justify-content:center;gap:0.7rem;
+    margin-bottom:2.2rem;
+  }
+  .uni-logo{height:44px;width:auto;display:block;}
+  .uni-name{
+    font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;
+    color:var(--ink);letter-spacing:0.01em;
+  }
   .eyebrow{font-size:0.85rem;letter-spacing:0.02em;color:var(--ink-dim);margin:0 0 0.6rem;}
   h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(2.4rem,6vw,4.2rem);margin:0 0 0.4rem;letter-spacing:-0.01em;}
   .section-tag{
@@ -139,7 +148,11 @@
 
   footer{position:relative;z-index:1;text-align:center;padding:2rem 1.5rem 3rem;color:var(--ink-dim);font-size:0.82rem;}
 
-  @media (max-width:480px){ header{padding:4rem 1.2rem 2.4rem;} }
+  @media (max-width:480px){
+    header{padding:2.4rem 1.2rem 2.4rem;}
+    .uni-logo{height:34px;}
+    .uni-name{font-size:0.95rem;}
+  }
 </style>
 </head>
 <body>
@@ -149,6 +162,10 @@
 <div class="orb orb3"></div>
 
 <header>
+  <div class="uni-bar">
+    <img src="assets/amritalogo.png" alt="Amrita Vishwa Vidyapeetham logo" class="uni-logo">
+    <span class="uni-name">Amrita Vishwa Vidyapeetham</span>
+  </div>
   <p class="eyebrow">Team project archive</p>
   <h1>Group 16 — MaOM</h1>
   <span class="section-tag">CSE-H</span>
