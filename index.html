@@ -71,6 +71,35 @@
   }
 
   main{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 1.5rem 6rem;}
+  .projects-heading-row{
+    display:flex;justify-content:flex-end;margin-bottom:1.1rem;
+  }
+  .projects-dropdown{position:relative;}
+  .projects-heading{
+    font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;
+    margin:0;padding:0.35rem 1.1rem;
+    color:var(--ink);
+    background:var(--glass-bg);border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:999px;
+    cursor:pointer;
+  }
+  .projects-heading:hover{background:rgba(255,255,255,0.14);}
+  .projects-dropdown-list{
+    list-style:none;margin:0.5rem 0 0;padding:0.4rem;
+    position:absolute;top:100%;right:0;min-width:220px;
+    background:rgba(30,20,55,0.85);border:1px solid var(--glass-border);border-radius:16px;
+    backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    box-shadow:inset 0 1px 0 var(--glass-highlight), 0 16px 40px rgba(0,0,0,0.4);
+    opacity:0;pointer-events:none;transform:translateY(-6px);
+    transition:opacity 0.25s ease, transform 0.25s ease;
+    z-index:5;
+  }
+  .projects-dropdown-list.open{opacity:1;pointer-events:auto;transform:translateY(0);}
+  .projects-dropdown-list li{
+    padding:0.6rem 0.8rem;font-size:0.92rem;color:var(--ink);
+    border-radius:10px;cursor:pointer;text-align:left;
+  }
+  .projects-dropdown-list li:hover{background:rgba(255,255,255,0.12);}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.6rem;}
   .status{grid-column:1/-1;text-align:center;color:var(--ink-dim);padding:2rem 0;}
 
@@ -172,6 +201,12 @@
 </header>
 
 <main>
+  <div class="projects-heading-row">
+    <div class="projects-dropdown">
+      <button class="projects-heading" id="allProjectsBtn" aria-haspopup="true" aria-expanded="false">All Projects</button>
+      <ul class="projects-dropdown-list" id="allProjectsList"></ul>
+    </div>
+  </div>
   <div class="grid" id="grid">
     <p class="status">Loading projects…</p>
   </div>
@@ -250,12 +285,47 @@
     grid.appendChild(placeholder);
   }
 
+  const allProjectsBtn = document.getElementById('allProjectsBtn');
+  const allProjectsList = document.getElementById('allProjectsList');
+
+  function populateDropdown(projects){
+    allProjectsList.innerHTML = '';
+    projects.forEach((project, i)=>{
+      const li = document.createElement('li');
+      li.textContent = (i+1) + ' - ' + project.title;
+      li.addEventListener('click', ()=>{
+        openModal(project);
+        closeDropdown();
+      });
+      allProjectsList.appendChild(li);
+    });
+  }
+  function openDropdown(){
+    allProjectsList.classList.add('open');
+    allProjectsBtn.setAttribute('aria-expanded','true');
+  }
+  function closeDropdown(){
+    allProjectsList.classList.remove('open');
+    allProjectsBtn.setAttribute('aria-expanded','false');
+  }
+  allProjectsBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    allProjectsList.classList.contains('open') ? closeDropdown() : openDropdown();
+  });
+  document.addEventListener('click', (e)=>{
+    if(!allProjectsList.contains(e.target) && e.target!==allProjectsBtn) closeDropdown();
+  });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDropdown(); });
+
   fetch('assets/projects/projects.json')
     .then(res => {
       if(!res.ok) throw new Error('Could not load projects.json');
       return res.json();
     })
-    .then(renderProjects)
+    .then(projects => {
+      renderProjects(projects);
+      populateDropdown(projects);
+    })
     .catch(err => {
       grid.innerHTML = '<p class="status">Could not load projects. If you\'re viewing this file directly (file://), '
         + 'run a local server, or push it to GitHub Pages, where it will load normally.</p>';
