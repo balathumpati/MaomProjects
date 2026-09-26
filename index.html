@@ -52,6 +52,58 @@
   }
   @media (prefers-reduced-motion:reduce){ .orb{animation:none;} }
 
+  .tagline{
+    margin:1.1rem 0 0;
+    font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+    font-size:1.05rem;letter-spacing:0.02em;
+    background:linear-gradient(100deg, var(--ink-dim) 30%, #ffffff 50%, var(--ink-dim) 70%);
+    background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:shimmer 6s ease-in-out infinite;
+  }
+  @keyframes shimmer{
+    0%{background-position:200% 0;}
+    100%{background-position:-20% 0;}
+  }
+
+  .uni-logo-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+  .uni-logo-wrap::before{
+    content:'';position:absolute;inset:-14px;border-radius:50%;
+    background:radial-gradient(circle, rgba(143,216,196,0.35) 0%, transparent 70%);
+    animation:pulse-ring 3.5s ease-in-out infinite;
+  }
+  @keyframes pulse-ring{
+    0%,100%{transform:scale(0.9);opacity:0.5;}
+    50%{transform:scale(1.15);opacity:0.9;}
+  }
+
+  .mote{
+    position:fixed;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(143,216,196,0.4) 60%, transparent 100%);
+    pointer-events:none;z-index:0;
+    animation:mote-float linear infinite;
+  }
+  @keyframes mote-float{
+    0%{transform:translateY(0) translateX(0);opacity:0;}
+    10%{opacity:0.8;}
+    90%{opacity:0.6;}
+    100%{transform:translateY(-90vh) translateX(20px);opacity:0;}
+  }
+  @media (prefers-reduced-motion:reduce){ .mote{animation:none;display:none;} }
+
+  .meditator{
+    position:fixed;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:min(560px,70vw);
+    color:var(--ink);
+    opacity:0.055;
+    z-index:0;
+    pointer-events:none;
+  }
+  .meditator svg{width:100%;height:auto;display:block;}
+
+  @media (prefers-reduced-motion:reduce){ .tagline{animation:none;} .uni-logo-wrap::before{animation:none;} }
+
   header{position:relative;z-index:1;text-align:center;padding:3.2rem 1.5rem 3rem;}
   .uni-bar{
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;
@@ -104,12 +156,20 @@
   .status{grid-column:1/-1;text-align:center;color:var(--ink-dim);padding:2rem 0;}
 
   .card{
+    position:relative;
     background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:24px;
     backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
     box-shadow:inset 0 1px 0 var(--glass-highlight), 0 8px 32px rgba(0,0,0,0.35);
     overflow:hidden;cursor:pointer;
     transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease;
   }
+  .card::after{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.16) 48%, rgba(255,255,255,0.04) 55%, transparent 70%);
+    transform:translateX(-120%);
+    transition:transform 0.9s ease;
+  }
+  .card:hover::after{transform:translateX(120%);}
   .card:hover{transform:translateY(-4px);box-shadow:inset 0 1px 0 var(--glass-highlight), 0 16px 40px rgba(0,0,0,0.45);}
   .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
   .card-media{width:100%;aspect-ratio:4/3;overflow:hidden;background:rgba(255,255,255,0.05);}
@@ -132,10 +192,22 @@
     margin:0 0 1.1rem;text-align:center;
   }
   .team-card{
+    position:relative;overflow:hidden;
     background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:24px;
     backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
     box-shadow:inset 0 1px 0 var(--glass-highlight), 0 8px 32px rgba(0,0,0,0.35);
     padding:0.6rem 1.6rem;
+  }
+  .team-card::after{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.1) 48%, rgba(255,255,255,0.03) 55%, transparent 70%);
+    transform:translateX(-120%);
+    animation:sweep-once 3.5s ease-in-out 0.6s 1;
+  }
+  @keyframes sweep-once{
+    0%{transform:translateX(-120%);}
+    40%{transform:translateX(120%);}
+    100%{transform:translateX(120%);}
   }
   .team-list{list-style:none;margin:0;padding:0;}
   .team-list li{
@@ -189,15 +261,34 @@
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
 <div class="orb orb3"></div>
+<div class="mote" style="width:5px;height:5px;left:12%;bottom:-10px;animation-duration:14s;animation-delay:0s;"></div>
+<div class="mote" style="width:3px;height:3px;left:28%;bottom:-10px;animation-duration:18s;animation-delay:3s;"></div>
+<div class="mote" style="width:6px;height:6px;left:47%;bottom:-10px;animation-duration:16s;animation-delay:6s;"></div>
+<div class="mote" style="width:4px;height:4px;left:66%;bottom:-10px;animation-duration:20s;animation-delay:1.5s;"></div>
+<div class="mote" style="width:3px;height:3px;left:81%;bottom:-10px;animation-duration:15s;animation-delay:9s;"></div>
+<div class="mote" style="width:5px;height:5px;left:92%;bottom:-10px;animation-duration:19s;animation-delay:4.5s;"></div>
+
+<div class="meditator" aria-hidden="true">
+  <svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="28" r="16"/>
+    <path d="M84,46 C79,70 81,96 90,112 L110,112 C119,96 121,70 116,46 Z"/>
+    <path d="M45,138 C58,116 80,106 100,106 C120,106 142,116 155,138 C142,150 120,156 100,156 C80,156 58,150 45,138 Z"/>
+    <path d="M85,54 C68,72 58,96 63,122" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+    <path d="M115,54 C132,72 142,96 137,122" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="63" cy="124" r="7"/>
+    <circle cx="137" cy="124" r="7"/>
+  </svg>
+</div>
 
 <header>
   <div class="uni-bar">
-    <img src="assets/amritalogo.png" alt="Amrita Vishwa Vidyapeetham logo" class="uni-logo">
+    <span class="uni-logo-wrap"><img src="assets/amritalogo.png" alt="Amrita Vishwa Vidyapeetham logo" class="uni-logo"></span>
     <span class="uni-name">Amrita Vishwa Vidyapeetham, Coimbatore</span>
   </div>
   <p class="eyebrow">Team project archive</p>
   <h1>Group 16 — MaOM</h1>
   <span class="section-tag">CSE-H</span>
+  <p class="tagline">Mastery Over Mind</p>
 </header>
 
 <main>
