@@ -235,6 +235,8 @@
   }
   .modal-backdrop.open .modal{transform:scale(1) translateY(0);}
   .modal-media img,.modal-media video{width:100%;display:block;max-height:52vh;object-fit:contain;background:rgba(0,0,0,0.2);}
+  /* Ensure hidden media stays hidden even though the media styles use display:block. */
+  .modal-media img[hidden],.modal-media video[hidden]{display:none !important;}
   .video-card-label{width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;gap:0.65rem;background:linear-gradient(135deg,rgba(143,216,196,0.13),rgba(124,92,255,0.2));color:var(--accent);font-size:1rem;}
   .video-card-label span:first-child{font-size:2rem;}
   .modal-body{padding:1.6rem 1.8rem 2rem;}
