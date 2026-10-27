@@ -234,7 +234,9 @@
     transition:transform 0.35s cubic-bezier(.2,.8,.2,1);
   }
   .modal-backdrop.open .modal{transform:scale(1) translateY(0);}
-  .modal-media img{width:100%;display:block;max-height:52vh;object-fit:contain;background:rgba(0,0,0,0.2);}
+  .modal-media img,.modal-media video{width:100%;display:block;max-height:52vh;object-fit:contain;background:rgba(0,0,0,0.2);}
+  .video-card-label{width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;gap:0.65rem;background:linear-gradient(135deg,rgba(143,216,196,0.13),rgba(124,92,255,0.2));color:var(--accent);font-size:1rem;}
+  .video-card-label span:first-child{font-size:2rem;}
   .modal-body{padding:1.6rem 1.8rem 2rem;}
   .modal-body h2{font-family:'Fraunces',serif;font-weight:500;font-size:1.7rem;margin:0 0 0.3rem;}
   .modal-meta{font-size:0.85rem;color:var(--ink-dim);margin:0 0 1rem;}
@@ -317,7 +319,7 @@
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <button class="close-btn" id="closeBtn" aria-label="Close">✕</button>
-    <div class="modal-media"><img id="modalImg" src="" alt=""></div>
+    <div class="modal-media"><img id="modalImg" src="" alt="" hidden><video id="modalVideo" controls playsinline preload="metadata" hidden></video></div>
     <div class="modal-body">
       <h2 id="modalTitle"></h2>
       <p class="modal-meta">MaOM · Group 16 · CSE-H</p>
@@ -331,17 +333,40 @@
   const backdrop = document.getElementById('modalBackdrop');
   const closeBtn = document.getElementById('closeBtn');
   const modalImg = document.getElementById('modalImg');
+  const modalVideo = document.getElementById('modalVideo');
   const modalTitle = document.getElementById('modalTitle');
   const modalDesc = document.getElementById('modalDesc');
 
   function openModal(project){
-    modalImg.src = project.image;
-    modalImg.alt = project.title;
-    modalTitle.textContent = project.title;
+    // Stop and reset any video left open from the previous project.
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalVideo.load();
+    modalVideo.hidden = true;
+    modalImg.hidden = true;
+    modalImg.removeAttribute('src');
+    modalImg.alt = '';
+
+    // Image and video are independent optional fields, so a project can use either or both.
+    if (project.image) {
+      modalImg.src = project.image;
+      modalImg.alt = project.title || '';
+      modalImg.hidden = false;
+    }
+    if (project.video) {
+      modalVideo.src = project.video;
+      modalVideo.hidden = false;
+      modalVideo.load();
+    }
+
+    modalTitle.textContent = project.title || '';
     modalDesc.textContent = project.description || project.summary || '';
     backdrop.classList.add('open');
   }
-  function closeModal(){ backdrop.classList.remove('open'); }
+  function closeModal(){
+    backdrop.classList.remove('open');
+    modalVideo.pause();
+  }
   closeBtn.addEventListener('click', closeModal);
   backdrop.addEventListener('click', e=>{ if(e.target===backdrop) closeModal(); });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
@@ -358,10 +383,16 @@
       card.tabIndex = 0;
       card.setAttribute('role','button');
       card.setAttribute('aria-label', 'Open ' + project.title + ' project');
+      const mediaMarkup = project.image
+        ? `<div class="card-media"><img src="${project.image}" alt="${project.title || ''}"></div>`
+        : project.video
+          ? '<div class="card-media video-card-label"><span aria-hidden="true">▶</span><span>Video activity</span></div>'
+          : '<div class="card-media video-card-label"><span>✦</span><span>Project</span></div>';
+
       card.innerHTML = `
-        <div class="card-media"><img src="${project.image}" alt="${project.title}"></div>
+        ${mediaMarkup}
         <div class="card-body">
-          <h2>${project.title}</h2>
+          <h2>${project.title || ''}</h2>
           <p>${project.summary || ''}</p>
           <span class="view-more">View more →</span>
         </div>`;
