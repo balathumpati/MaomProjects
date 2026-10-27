@@ -216,6 +216,7 @@
   }
   .team-list li + li{border-top:1px solid rgba(255,255,255,0.12);}
   .team-name{color:var(--ink);}
+  .team-roll{color:var(--accent);font-size:0.88rem;white-space:nowrap;margin-left:auto;margin-right:1rem;}
   .team-role{color:var(--ink-dim);font-size:0.88rem;}
 
   .modal-backdrop{
@@ -465,8 +466,24 @@
     }
     members.forEach(member=>{
       const li = document.createElement('li');
-      li.innerHTML = `<span class="team-name">${member.name}</span>`
-        + (member.role ? `<span class="team-role">${member.role}</span>` : '');
+      const name = document.createElement('span');
+      name.className = 'team-name';
+      name.textContent = member.name || '';
+      li.appendChild(name);
+
+      if (member.rollNo) {
+        const roll = document.createElement('span');
+        roll.className = 'team-roll';
+        roll.textContent = 'Roll No: ' + member.rollNo;
+        li.appendChild(roll);
+      }
+
+      if (member.role) {
+        const role = document.createElement('span');
+        role.className = 'team-role';
+        role.textContent = member.role;
+        li.appendChild(role);
+      }
       teamList.appendChild(li);
     });
   }
