@@ -115,7 +115,7 @@
   .eyebrow{font-size:0.85rem;letter-spacing:0.02em;color:var(--ink-dim);margin:0 0 0.6rem;}
   h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(2.4rem,6vw,4.2rem);margin:0 0 0.4rem;letter-spacing:-0.01em;}
 
-  .section-tag,.projects-heading,.sort-select{
+  .section-tag,.projects-heading,.search-input{
     background:rgba(255,255,255,0.075);
     border:1px solid rgba(255,255,255,0.38);
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.38), 0 4px 18px rgba(0,0,0,0.12);
@@ -126,22 +126,23 @@
   main{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 1.5rem 6rem;}
   .projects-heading-row{display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:0.7rem;margin-bottom:1.1rem;}
   .projects-dropdown{position:relative;}
-  .projects-heading,.sort-select{
+  .projects-heading{
     font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;
     margin:0;padding:0.35rem 1.1rem;color:var(--ink);cursor:pointer;
   }
   .projects-heading{transition:background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;}
-  .projects-heading:hover,.sort-select:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.48);}
+  .projects-heading:hover,.search-input:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.48);}
   .projects-heading:active{transform:scale(0.96);box-shadow:inset 0 1px 5px rgba(255,255,255,0.12);}
-  .projects-heading:focus-visible,.sort-select:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .projects-heading:focus-visible,.search-input:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
 
-  .sort-select{
+  .search-input{
     appearance:none;-webkit-appearance:none;color-scheme:dark;
-    padding-right:2.2rem;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23b8c9ea' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;background-position:right 0.9rem center;
+    font-family:'Inter',sans-serif;font-size:0.95rem;color:var(--ink);
+    margin:0;padding:0.45rem 1.1rem;width:240px;max-width:100%;
+    transition:background 0.2s ease, border-color 0.2s ease;
   }
-  .sort-select option{background:#0c1432;color:#f2f7ff;font-family:'Inter',sans-serif;font-size:0.95rem;}
+  .search-input::placeholder{color:var(--ink-dim);opacity:1;}
+  .search-input:focus{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.48);}
 
   .projects-dropdown-list{
     list-style:none;margin:0.5rem 0 0;padding:0.4rem;
@@ -312,13 +313,7 @@
 
 <main>
   <div class="projects-heading-row">
-    <select class="sort-select" id="sortSelect" aria-label="Sort projects">
-      <option value="default">Sort: Default (newest last)</option>
-      <option value="date-new">Date: Newest first</option>
-      <option value="date-old">Date: Oldest first</option>
-      <option value="name-az">Name: A to Z</option>
-      <option value="name-za">Name: Z to A</option>
-    </select>
+    <input class="search-input" id="searchInput" type="search" placeholder="Search projects…" aria-label="Search projects" autocomplete="off">
     <div class="projects-dropdown">
       <button class="projects-heading" id="allProjectsBtn" aria-haspopup="true" aria-expanded="false">All Projects</button>
       <ul class="projects-dropdown-list" id="allProjectsList"></ul>
@@ -357,10 +352,10 @@
   const grid = $('grid'), backdrop = $('modalBackdrop'), modal = $('modal'), closeBtn = $('closeBtn');
   const modalImg = $('modalImg'), modalVideo = $('modalVideo'), modalTitle = $('modalTitle'), modalDesc = $('modalDesc');
   const allProjectsBtn = $('allProjectsBtn'), allProjectsList = $('allProjectsList');
-  const sortSelect = $('sortSelect'), teamList = $('teamList');
+  const searchInput = $('searchInput'), teamList = $('teamList');
 
   let projects = [];          // in the order they appear in projects.json (newest added = last)
-  let sortMode = 'default';
+  let query = '';
   let lastFocus = null;
 
   /* ---------- helpers ---------- */
@@ -381,36 +376,19 @@
     return box;
   }
 
-  /* ---------- sorting ---------- */
-  function dateValue(p){
-    const t = Date.parse(p.date);
-    return isNaN(t) ? null : t;
-  }
-  function getSorted(){
-    const list = projects.slice();
-    const byName = (a, b) => (a.title || '').localeCompare(b.title || '', undefined, {sensitivity:'base', numeric:true});
-    // Projects without a date always go to the end for date sorts.
-    const byDate = dir => (a, b) => {
-      const da = dateValue(a), db = dateValue(b);
-      if (da === null && db === null) return a._i - b._i;
-      if (da === null) return 1;
-      if (db === null) return -1;
-      return da === db ? a._i - b._i : (da - db) * dir;
-    };
-    switch (sortMode) {
-      case 'date-new': return list.sort(byDate(-1));
-      case 'date-old': return list.sort(byDate(1));
-      case 'name-az':  return list.sort(byName);
-      case 'name-za':  return list.sort((a, b) => byName(b, a));
-      default:         return list.sort((a, b) => a._i - b._i);
-    }
+  /* ---------- search ---------- */
+  function getFiltered(){
+    const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+    if (!words.length) return projects;
+    return projects.filter(p => {
+      const text = [p.title, p.summary, p.description].join(' ').toLowerCase();
+      return words.every(w => text.includes(w));
+    });
   }
   function refresh(){
-    const sorted = getSorted();
-    renderProjects(sorted);
-    populateDropdown(sorted);
+    renderProjects(getFiltered());
   }
-  sortSelect.addEventListener('change', () => { sortMode = sortSelect.value; refresh(); });
+  searchInput.addEventListener('input', () => { query = searchInput.value.trim(); refresh(); });
 
   /* ---------- modal ---------- */
   function openModal(project){
@@ -467,7 +445,9 @@
   function renderProjects(list){
     grid.innerHTML = '';
     if (!list.length) {
-      grid.append(el('p', 'status', 'No projects yet — add one to assets/projects/projects.json.'));
+      grid.append(el('p', 'status', query
+        ? 'No projects match "' + query + '".'
+        : 'No projects yet — add one to assets/projects/projects.json.'));
       return;
     }
     list.forEach(project => {
@@ -506,9 +486,11 @@
       grid.append(card);
     });
 
-    const placeholder = el('div', 'card placeholder');
-    placeholder.append(el('p', '', 'More projects will appear here as the team adds them.'));
-    grid.append(placeholder);
+    if (!query) {
+      const placeholder = el('div', 'card placeholder');
+      placeholder.append(el('p', '', 'More projects will appear here as the team adds them.'));
+      grid.append(placeholder);
+    }
   }
 
   /* ---------- "All Projects" dropdown ---------- */
@@ -546,8 +528,9 @@
       return res.json();
     })
     .then(data => {
-      projects = data.map((p, i) => Object.assign({}, p, { _i: i }));
+      projects = data;
       refresh();
+      populateDropdown(projects);
     })
     .catch(err => {
       grid.innerHTML = '';
