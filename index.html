@@ -4,15 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Group 16 — MaOM</title>
+<meta name="description" content="Group 16 (MaOM) team project archive, CSE-H, Amrita Vishwa Vidyapeetham, Coimbatore">
+<meta name="theme-color" content="#070d24">
+<meta property="og:title" content="Group 16 — MaOM">
+<meta property="og:description" content="Mastery Over Mind: our team project archive">
+<meta property="og:image" content="https://maom-group16.vercel.app/assets/preview.jpg">
+<link rel="icon" href="assets/amritalogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#f2f7ff;
     --ink-dim:#b8c9ea;
     --accent:#7fd4ff;
-    --glass-bg:rgba(255,255,255,0.08);
-    --glass-border:rgba(255,255,255,0.22);
-    --glass-highlight:rgba(255,255,255,0.35);
+    --glass-bg:rgba(255,255,255,0.055);
+    --glass-border:rgba(255,255,255,0.32);
+    --glass-highlight:rgba(255,255,255,0.52);
     box-sizing:border-box;
     padding-top:env(safe-area-inset-top,0px);
     padding-bottom:env(safe-area-inset-bottom,0px);
@@ -25,23 +33,22 @@
     min-height:100%;
     font-family:'Inter',sans-serif;
     color:var(--ink);
+    background:#070d24;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* Fixed gradient on a pseudo-element: reliable on iOS/Android */
+  body::before{
+    content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:
       radial-gradient(circle at 15% 20%, #3a4fb5 0%, transparent 42%),
       radial-gradient(circle at 85% 15%, #2f7fd1 0%, transparent 40%),
       radial-gradient(circle at 50% 90%, #2a2a7a 0%, transparent 50%),
       linear-gradient(160deg, #070d24 0%, #0d1838 45%, #0a1530 100%);
-    background-attachment:fixed;
-    overflow-x:hidden;
-    position:relative;
   }
   .orb{
-    position:fixed;
-    border-radius:50%;
-    filter:blur(60px);
-    opacity:0.5;
-    z-index:0;
-    pointer-events:none;
-    animation:drift 22s ease-in-out infinite;
+    position:fixed;border-radius:50%;filter:blur(60px);opacity:0.5;
+    z-index:0;pointer-events:none;animation:drift 22s ease-in-out infinite;
   }
   .orb1{width:340px;height:340px;background:#4f6bff;top:-80px;left:-100px;animation-delay:0s;}
   .orb2{width:280px;height:280px;background:#7fd4ff;bottom:-60px;right:-60px;animation-delay:-8s;}
@@ -50,7 +57,10 @@
     0%,100%{transform:translate(0,0) scale(1);}
     50%{transform:translate(30px,-40px) scale(1.08);}
   }
-  @media (prefers-reduced-motion:reduce){ .orb{animation:none;} }
+  @media (max-width:600px){
+    .orb{filter:blur(40px);}
+    .orb3{display:none;}
+  }
 
   .tagline{
     margin:1.1rem 0 0;
@@ -80,8 +90,7 @@
   .mote{
     position:fixed;border-radius:50%;
     background:radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(127,212,255,0.45) 60%, transparent 100%);
-    pointer-events:none;z-index:0;
-    animation:mote-float linear infinite;
+    pointer-events:none;z-index:0;animation:mote-float linear infinite;
   }
   @keyframes mote-float{
     0%{transform:translateY(0) translateX(0);opacity:0;}
@@ -89,20 +98,12 @@
     90%{opacity:0.6;}
     100%{transform:translateY(-90vh) translateX(20px);opacity:0;}
   }
-  @media (prefers-reduced-motion:reduce){ .mote{animation:none;display:none;} }
 
   .meditator{
-    position:fixed;top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    width:min(560px,70vw);
-    color:var(--ink);
-    opacity:0.055;
-    z-index:0;
-    pointer-events:none;
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:min(560px,70vw);color:var(--ink);opacity:0.055;z-index:0;pointer-events:none;
   }
   .meditator svg{width:100%;height:auto;display:block;}
-
-  @media (prefers-reduced-motion:reduce){ .tagline{animation:none;} .uni-logo-wrap::before{animation:none;} }
 
   header{position:relative;z-index:1;text-align:center;padding:3.2rem 1.5rem 3rem;}
   .uni-bar{
@@ -110,55 +111,57 @@
     margin-bottom:2.2rem;
   }
   .uni-logo{height:64px;width:auto;display:block;}
-  .uni-name{
-    font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;
-    color:var(--ink);letter-spacing:0.01em;
-  }
+  .uni-name{font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;color:var(--ink);letter-spacing:0.01em;}
   .eyebrow{font-size:0.85rem;letter-spacing:0.02em;color:var(--ink-dim);margin:0 0 0.6rem;}
   h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(2.4rem,6vw,4.2rem);margin:0 0 0.4rem;letter-spacing:-0.01em;}
-  .section-tag{
-    display:inline-block;margin-top:0.8rem;padding:0.35rem 1.1rem;font-size:0.9rem;
-    background:var(--glass-bg);border:1px solid var(--glass-border);
-    backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:999px;
+
+  .section-tag,.projects-heading,.sort-select{
+    background:rgba(255,255,255,0.075);
+    border:1px solid rgba(255,255,255,0.38);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.38), 0 4px 18px rgba(0,0,0,0.12);
+    border-radius:999px;
   }
+  .section-tag{display:inline-block;margin-top:0.8rem;padding:0.35rem 1.1rem;font-size:0.9rem;}
 
   main{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 1.5rem 6rem;}
-  .projects-heading-row{
-    display:flex;justify-content:flex-end;margin-bottom:1.1rem;
-  }
+  .projects-heading-row{display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:0.7rem;margin-bottom:1.1rem;}
   .projects-dropdown{position:relative;}
-  .projects-heading{
+  .projects-heading,.sort-select{
     font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;
-    margin:0;padding:0.35rem 1.1rem;
-    color:var(--ink);
-    background:var(--glass-bg);border:1px solid var(--glass-border);
-    backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:999px;
-    cursor:pointer;
+    margin:0;padding:0.35rem 1.1rem;color:var(--ink);cursor:pointer;
   }
-  .projects-heading:hover{background:rgba(255,255,255,0.14);}
+  .projects-heading{transition:background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;}
+  .projects-heading:hover,.sort-select:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.48);}
+  .projects-heading:active{transform:scale(0.96);box-shadow:inset 0 1px 5px rgba(255,255,255,0.12);}
+  .projects-heading:focus-visible,.sort-select:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  .sort-select{
+    appearance:none;-webkit-appearance:none;color-scheme:dark;
+    padding-right:2.2rem;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23b8c9ea' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 0.9rem center;
+  }
+  .sort-select option{background:#0c1432;color:#f2f7ff;font-family:'Inter',sans-serif;font-size:0.95rem;}
+
   .projects-dropdown-list{
     list-style:none;margin:0.5rem 0 0;padding:0.4rem;
     position:absolute;top:100%;right:0;min-width:220px;
-    background:rgba(12,20,50,0.85);border:1px solid var(--glass-border);border-radius:16px;
-    backdrop-filter:none;-webkit-backdrop-filter:none;
-    box-shadow:inset 0 1px 0 var(--glass-highlight), 0 16px 40px rgba(0,0,0,0.4);
+    background:rgba(12,20,50,0.94);border:1px solid rgba(255,255,255,0.3);border-radius:16px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.38), 0 16px 40px rgba(0,0,0,0.4);
     opacity:0;visibility:hidden;pointer-events:none;
     transform:translateY(-12px) scale(0.96);transform-origin:top right;
     transition:opacity 0.24s ease, transform 0.28s cubic-bezier(.2,.8,.2,1), visibility 0.28s;
-    z-index:5;
+    z-index:5;max-height:60vh;overflow-y:auto;
   }
-  .projects-dropdown-list.open{
-    opacity:1;visibility:visible;pointer-events:auto;
-    transform:translateY(0) scale(1);
-  }
+  .projects-dropdown-list.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1);}
   .projects-dropdown-list li{
-    padding:0.6rem 0.8rem;font-size:0.92rem;color:var(--ink);
-    border-radius:10px;cursor:pointer;text-align:left;
+    border-radius:10px;
     opacity:0;transform:translateY(12px) scale(0.96);transform-origin:center;
     transition:opacity 0.28s ease, transform 0.38s cubic-bezier(.2,.8,.2,1), background 0.2s ease;
   }
   .projects-dropdown-list.open li{opacity:1;transform:translateY(0) scale(1);}
   .projects-dropdown-list li:active{transform:translateY(-2px) scale(1.015);background:rgba(255,255,255,0.16);}
+  .projects-dropdown-list li:hover{background:rgba(255,255,255,0.12);}
   .projects-dropdown-list.open li:nth-child(1){transition-delay:0.03s;}
   .projects-dropdown-list.open li:nth-child(2){transition-delay:0.06s;}
   .projects-dropdown-list.open li:nth-child(3){transition-delay:0.09s;}
@@ -166,114 +169,96 @@
   .projects-dropdown-list.open li:nth-child(5){transition-delay:0.15s;}
   .projects-dropdown-list.open li:nth-child(6){transition-delay:0.18s;}
   .projects-dropdown-list.open li:nth-child(n+7){transition-delay:0.21s;}
-  .projects-dropdown-list li:hover{background:rgba(255,255,255,0.12);}
-  .projects-heading{transition:background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;}
-  .projects-heading:active{transform:scale(0.96);box-shadow:inset 0 1px 5px rgba(255,255,255,0.12);}
-  @media (prefers-reduced-motion:reduce){
-    .projects-dropdown-list,.projects-dropdown-list li,.projects-heading,.card{transition:none !important;}
-    .card:hover,.card:active,.projects-dropdown-list li:active{transform:none !important;}
+  .dd-item{
+    display:block;width:100%;text-align:left;background:none;border:0;border-radius:10px;
+    padding:0.6rem 0.8rem;font:inherit;font-size:0.92rem;color:var(--ink);cursor:pointer;
   }
+  .dd-item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.6rem;}
   .status{grid-column:1/-1;text-align:center;color:var(--ink-dim);padding:2rem 0;}
 
   .card{
     position:relative;
-    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:24px;
-    backdrop-filter:none;-webkit-backdrop-filter:none;
-    box-shadow:inset 0 1px 0 var(--glass-highlight), 0 8px 32px rgba(0,0,0,0.35);
+    background:var(--glass-bg);border:1px solid rgba(255,255,255,0.3);border-radius:24px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.38), inset 0 0 0 1px rgba(255,255,255,0.035), 0 10px 32px rgba(0,0,0,0.22);
     overflow:hidden;cursor:pointer;
     transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease;
   }
   .card::after{
     content:'';position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.16) 48%, rgba(255,255,255,0.04) 55%, transparent 70%);
-    transform:translateX(-120%);
-    transition:transform 0.9s ease;
+    transform:translateX(-120%);transition:transform 0.9s ease;
   }
   .card:hover::after{transform:translateX(120%);}
-  .card:hover{transform:translateY(-7px) scale(1.015);box-shadow:inset 0 1px 0 var(--glass-highlight), 0 18px 42px rgba(0,0,0,0.45);}
+  .card:hover{transform:translateY(-7px) scale(1.015);border-color:rgba(255,255,255,0.48);box-shadow:inset 0 1px 0 var(--glass-highlight), 0 18px 42px rgba(0,0,0,0.45);}
   .card:active{transform:translateY(-3px) scale(1.01);}
   @media (hover:none){.card:active{transform:translateY(-4px) scale(1.012);box-shadow:inset 0 1px 0 var(--glass-highlight), 0 14px 32px rgba(0,0,0,0.4);}}
   .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
-  .card-media{width:100%;aspect-ratio:4/3;overflow:hidden;background:rgba(255,255,255,0.05);}
+  .card-media{width:100%;aspect-ratio:1/1;overflow:hidden;background:rgba(255,255,255,0.05);}
   .card-media img{width:100%;height:100%;object-fit:cover;display:block;}
   .card-body{padding:1.3rem 1.4rem 1.5rem;}
   .card-body h2{font-family:'Fraunces',serif;font-weight:500;font-size:1.35rem;margin:0 0 0.35rem;}
-  .card-body p{margin:0;font-size:0.92rem;line-height:1.5;color:var(--ink-dim);}
+  .card-body p{
+    margin:0;font-size:0.92rem;line-height:1.5;color:var(--ink-dim);
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  }
   .view-more{display:inline-block;margin-top:0.9rem;font-size:0.85rem;color:var(--accent);}
 
-  .card.placeholder{
-    cursor:default;display:flex;align-items:center;justify-content:center;
-    min-height:260px;border-style:dashed;
-  }
+  .card.placeholder{cursor:default;display:flex;align-items:center;justify-content:center;min-height:260px;border-style:dashed;}
   .card.placeholder:hover{transform:none;}
-  .card.placeholder p{text-align:center;color:var(--ink-dim);font-size:0.95rem;padding:2rem;}
+  .card.placeholder p{text-align:center;color:var(--ink-dim);font-size:0.95rem;padding:2rem;display:block;}
 
   .team-section{margin-top:3.5rem;}
-  .team-heading{
-    font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem;
-    margin:0 0 1.1rem;text-align:center;
-  }
+  .team-heading{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem;margin:0 0 1.1rem;text-align:center;}
   .team-card{
     position:relative;overflow:hidden;
-    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:24px;
-    backdrop-filter:none;-webkit-backdrop-filter:none;
-    box-shadow:inset 0 1px 0 var(--glass-highlight), 0 8px 32px rgba(0,0,0,0.35);
+    background:var(--glass-bg);border:1px solid rgba(255,255,255,0.3);border-radius:24px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.38), inset 0 0 0 1px rgba(255,255,255,0.035), 0 10px 32px rgba(0,0,0,0.22);
     padding:0.6rem 1.6rem;
   }
   .team-card::after{
     content:'';position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.1) 48%, rgba(255,255,255,0.03) 55%, transparent 70%);
-    transform:translateX(-120%);
-    animation:sweep-once 3.5s ease-in-out 0.6s 1;
+    transform:translateX(-120%);animation:sweep-once 3.5s ease-in-out 0.6s 1;
   }
-  @keyframes sweep-once{
-    0%{transform:translateX(-120%);}
-    40%{transform:translateX(120%);}
-    100%{transform:translateX(120%);}
-  }
+  @keyframes sweep-once{0%{transform:translateX(-120%);}40%{transform:translateX(120%);}100%{transform:translateX(120%);}}
   .team-list{list-style:none;margin:0;padding:0;}
-  .team-list li{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:0.9rem 0;font-size:1rem;
-  }
+  .team-list li{display:flex;flex-wrap:wrap;gap:0.25rem 1rem;justify-content:space-between;align-items:center;padding:0.9rem 0;font-size:1rem;}
   .team-list li + li{border-top:1px solid rgba(255,255,255,0.12);}
   .team-name{color:var(--ink);}
   .team-roll{color:var(--accent);font-size:0.88rem;white-space:nowrap;margin-left:auto;margin-right:1rem;}
   .team-role{color:var(--ink-dim);font-size:0.88rem;}
 
   .modal-backdrop{
-    position:fixed;inset:0;background:rgba(4,8,24,0.6);
-    backdrop-filter:none;-webkit-backdrop-filter:none;
+    position:fixed;inset:0;background:rgba(4,8,24,0.72);
     display:flex;align-items:center;justify-content:center;padding:1.5rem;z-index:10;
     opacity:0;pointer-events:none;transition:opacity 0.3s ease;
   }
   .modal-backdrop.open{opacity:1;pointer-events:auto;}
   .modal{
     max-width:640px;width:100%;max-height:88vh;overflow-y:auto;
-    background:rgba(12,20,50,0.75);border:1px solid var(--glass-border);border-radius:28px;
-    backdrop-filter:none;-webkit-backdrop-filter:none;
-    box-shadow:inset 0 1px 0 var(--glass-highlight), 0 24px 60px rgba(0,0,0,0.5);
-    transform:scale(0.94) translateY(10px);
-    transition:transform 0.35s cubic-bezier(.2,.8,.2,1);
+    background:rgba(12,20,50,0.96);border:1px solid rgba(255,255,255,0.3);border-radius:28px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.38), inset 0 0 0 1px rgba(255,255,255,0.035), 0 24px 60px rgba(0,0,0,0.5);
+    transform:scale(0.94) translateY(10px);transition:transform 0.35s cubic-bezier(.2,.8,.2,1);
   }
   .modal-backdrop.open .modal{transform:scale(1) translateY(0);}
   .modal-media img,.modal-media video{width:100%;display:block;max-height:52vh;object-fit:contain;background:rgba(0,0,0,0.2);}
-  /* Ensure hidden media stays hidden even though the media styles use display:block. */
   .modal-media img[hidden],.modal-media video[hidden]{display:none !important;}
-  .video-card-label{width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;gap:0.65rem;background:linear-gradient(135deg,rgba(127,212,255,0.13),rgba(79,107,255,0.28));color:var(--accent);font-size:1rem;}
+  .video-card-label{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;gap:0.65rem;background:linear-gradient(135deg,rgba(127,212,255,0.13),rgba(79,107,255,0.28));color:var(--accent);font-size:1rem;}
   .video-card-label span:first-child{font-size:2rem;}
   .modal-body{padding:1.6rem 1.8rem 2rem;}
   .modal-body h2{font-family:'Fraunces',serif;font-weight:500;font-size:1.7rem;margin:0 0 0.3rem;}
   .modal-meta{font-size:0.85rem;color:var(--ink-dim);margin:0 0 1rem;}
-  .modal-body p{font-size:0.98rem;line-height:1.65;color:var(--ink);margin:0 0 0.9rem;}
+  .modal-body p{font-size:0.98rem;line-height:1.65;color:var(--ink);margin:0 0 0.9rem;white-space:pre-line;}
   .close-btn{
-    position:sticky;top:0.9rem;float:right;margin:0.9rem 0.9rem 0 0;
+    position:sticky;top:0.9rem;float:right;margin:0.9rem 0.9rem 0 0;z-index:1;
     width:34px;height:34px;border-radius:50%;border:1px solid var(--glass-border);
     background:rgba(255,255,255,0.1);color:var(--ink);font-size:1.1rem;line-height:1;
     cursor:pointer;display:flex;align-items:center;justify-content:center;
   }
   .close-btn:hover{background:rgba(255,255,255,0.2);}
+  .close-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
   footer{position:relative;z-index:1;text-align:center;padding:2rem 1.5rem 3rem;color:var(--ink-dim);font-size:0.82rem;}
 
@@ -282,29 +267,12 @@
     .uni-logo{height:48px;}
     .uni-name{font-size:0.95rem;}
   }
-
-  /* Clear liquid-glass treatment: crisp surfaces with no backdrop blur */
-  :root{
-    --glass-bg:rgba(255,255,255,0.055);
-    --glass-border:rgba(255,255,255,0.32);
-    --glass-highlight:rgba(255,255,255,0.52);
+  @media (prefers-reduced-motion:reduce){
+    .orb,.tagline,.uni-logo-wrap::before{animation:none;}
+    .mote{animation:none;display:none;}
+    .projects-dropdown-list,.projects-dropdown-list li,.projects-heading,.card{transition:none !important;}
+    .card:hover,.card:active,.projects-dropdown-list li:active{transform:none !important;}
   }
-  .section-tag,.projects-heading{
-    background:rgba(255,255,255,0.075);
-    border-color:rgba(255,255,255,0.38);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.38), 0 4px 18px rgba(0,0,0,0.12);
-  }
-  .projects-dropdown-list,.card,.team-card,.modal{
-    backdrop-filter:none !important;
-    -webkit-backdrop-filter:none !important;
-    border-color:rgba(255,255,255,0.3);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.38), inset 0 0 0 1px rgba(255,255,255,0.035), 0 10px 32px rgba(0,0,0,0.22);
-  }
-  .projects-dropdown-list{background:rgba(12,20,50,0.94);}
-  .modal{background:rgba(12,20,50,0.96);}
-  .modal-backdrop{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(4,8,24,0.72);}
-  .card:hover,.projects-heading:hover{border-color:rgba(255,255,255,0.48);}
-
 </style>
 </head>
 <body>
@@ -344,6 +312,13 @@
 
 <main>
   <div class="projects-heading-row">
+    <select class="sort-select" id="sortSelect" aria-label="Sort projects">
+      <option value="default">Sort: Default (newest last)</option>
+      <option value="date-new">Date: Newest first</option>
+      <option value="date-old">Date: Oldest first</option>
+      <option value="name-az">Name: A to Z</option>
+      <option value="name-za">Name: Z to A</option>
+    </select>
     <div class="projects-dropdown">
       <button class="projects-heading" id="allProjectsBtn" aria-haspopup="true" aria-expanded="false">All Projects</button>
       <ul class="projects-dropdown-list" id="allProjectsList"></ul>
@@ -378,16 +353,69 @@
 </div>
 
 <script>
-  const grid = document.getElementById('grid');
-  const backdrop = document.getElementById('modalBackdrop');
-  const closeBtn = document.getElementById('closeBtn');
-  const modalImg = document.getElementById('modalImg');
-  const modalVideo = document.getElementById('modalVideo');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalDesc = document.getElementById('modalDesc');
+  const $ = id => document.getElementById(id);
+  const grid = $('grid'), backdrop = $('modalBackdrop'), modal = $('modal'), closeBtn = $('closeBtn');
+  const modalImg = $('modalImg'), modalVideo = $('modalVideo'), modalTitle = $('modalTitle'), modalDesc = $('modalDesc');
+  const allProjectsBtn = $('allProjectsBtn'), allProjectsList = $('allProjectsList');
+  const sortSelect = $('sortSelect'), teamList = $('teamList');
 
+  let projects = [];          // in the order they appear in projects.json (newest added = last)
+  let sortMode = 'default';
+  let lastFocus = null;
+
+  /* ---------- helpers ---------- */
+  function el(tag, className, text){
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function placeholderMedia(project){
+    const box = el('div', 'card-media video-card-label');
+    box.setAttribute('aria-hidden', 'true');
+    if (project && project.video) {
+      box.append(el('span', '', '▶'), el('span', '', 'Video activity'));
+    } else {
+      box.append(el('span', '', '✦'), el('span', '', 'Project'));
+    }
+    return box;
+  }
+
+  /* ---------- sorting ---------- */
+  function dateValue(p){
+    const t = Date.parse(p.date);
+    return isNaN(t) ? null : t;
+  }
+  function getSorted(){
+    const list = projects.slice();
+    const byName = (a, b) => (a.title || '').localeCompare(b.title || '', undefined, {sensitivity:'base', numeric:true});
+    // Projects without a date always go to the end for date sorts.
+    const byDate = dir => (a, b) => {
+      const da = dateValue(a), db = dateValue(b);
+      if (da === null && db === null) return a._i - b._i;
+      if (da === null) return 1;
+      if (db === null) return -1;
+      return da === db ? a._i - b._i : (da - db) * dir;
+    };
+    switch (sortMode) {
+      case 'date-new': return list.sort(byDate(-1));
+      case 'date-old': return list.sort(byDate(1));
+      case 'name-az':  return list.sort(byName);
+      case 'name-za':  return list.sort((a, b) => byName(b, a));
+      default:         return list.sort((a, b) => a._i - b._i);
+    }
+  }
+  function refresh(){
+    const sorted = getSorted();
+    renderProjects(sorted);
+    populateDropdown(sorted);
+  }
+  sortSelect.addEventListener('change', () => { sortMode = sortSelect.value; refresh(); });
+
+  /* ---------- modal ---------- */
   function openModal(project){
-    // Stop and reset any video left open from the previous project.
+    lastFocus = document.activeElement;
+
     modalVideo.pause();
     modalVideo.removeAttribute('src');
     modalVideo.load();
@@ -396,8 +424,8 @@
     modalImg.removeAttribute('src');
     modalImg.alt = '';
 
-    // Image and video are independent optional fields, so a project can use either or both.
     if (project.image) {
+      modalImg.onerror = () => { modalImg.hidden = true; };
       modalImg.src = project.image;
       modalImg.alt = project.title || '';
       modalImg.hidden = false;
@@ -411,136 +439,145 @@
     modalTitle.textContent = project.title || '';
     modalDesc.textContent = project.description || project.summary || '';
     backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
   }
   function closeModal(){
+    if (!backdrop.classList.contains('open')) return;
     backdrop.classList.remove('open');
     modalVideo.pause();
+    document.body.style.overflow = '';
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
   }
   closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', e=>{ if(e.target===backdrop) closeModal(); });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal(); closeDropdown(); return; }
+    // keep keyboard focus inside the popup while it is open
+    if (e.key === 'Tab' && backdrop.classList.contains('open')) {
+      const items = [...modal.querySelectorAll('button, video[controls]')].filter(n => !n.hidden);
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
 
-  function renderProjects(projects){
+  /* ---------- project cards ---------- */
+  function renderProjects(list){
     grid.innerHTML = '';
-    if(!projects.length){
-      grid.innerHTML = '<p class="status">No projects yet — add one to assets/projects/projects.json.</p>';
+    if (!list.length) {
+      grid.append(el('p', 'status', 'No projects yet — add one to assets/projects/projects.json.'));
       return;
     }
-    projects.forEach((project, i)=>{
-      const card = document.createElement('article');
-      card.className = 'card';
+    list.forEach(project => {
+      const card = el('article', 'card');
       card.tabIndex = 0;
-      card.setAttribute('role','button');
-      card.setAttribute('aria-label', 'Open ' + project.title + ' project');
-      const mediaMarkup = project.image
-        ? `<div class="card-media"><img src="${project.image}" alt="${project.title || ''}"></div>`
-        : project.video
-          ? '<div class="card-media video-card-label"><span aria-hidden="true">▶</span><span>Video activity</span></div>'
-          : '<div class="card-media video-card-label"><span>✦</span><span>Project</span></div>';
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', 'Open ' + (project.title || '') + ' project');
 
-      card.innerHTML = `
-        ${mediaMarkup}
-        <div class="card-body">
-          <h2>${project.title || ''}</h2>
-          <p>${project.summary || ''}</p>
-          <span class="view-more">View more →</span>
-        </div>`;
-      const open = ()=> openModal(project);
+      let media;
+      if (project.image) {
+        media = el('div', 'card-media');
+        const img = new Image();
+        img.src = project.image;
+        img.alt = project.title || '';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.addEventListener('error', () => media.replaceWith(placeholderMedia(project)));
+        media.append(img);
+      } else {
+        media = placeholderMedia(project);
+      }
+
+      const body = el('div', 'card-body');
+      body.append(
+        el('h2', '', project.title || ''),
+        el('p', '', project.summary || ''),
+        el('span', 'view-more', 'View more →')
+      );
+      card.append(media, body);
+
+      const open = () => openModal(project);
       card.addEventListener('click', open);
-      card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } });
-      grid.appendChild(card);
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      });
+      grid.append(card);
     });
-    const placeholder = document.createElement('div');
-    placeholder.className = 'card placeholder';
-    placeholder.innerHTML = '<p>More projects will appear here as the team adds them.</p>';
-    grid.appendChild(placeholder);
+
+    const placeholder = el('div', 'card placeholder');
+    placeholder.append(el('p', '', 'More projects will appear here as the team adds them.'));
+    grid.append(placeholder);
   }
 
-  const allProjectsBtn = document.getElementById('allProjectsBtn');
-  const allProjectsList = document.getElementById('allProjectsList');
-
-  function populateDropdown(projects){
+  /* ---------- "All Projects" dropdown ---------- */
+  function populateDropdown(list){
     allProjectsList.innerHTML = '';
-    projects.forEach((project, i)=>{
+    list.forEach((project, i) => {
       const li = document.createElement('li');
-      li.textContent = (i+1) + ' - ' + project.title;
-      li.addEventListener('click', ()=>{
-        openModal(project);
-        closeDropdown();
-      });
-      allProjectsList.appendChild(li);
+      const btn = el('button', 'dd-item', (i + 1) + ' - ' + (project.title || ''));
+      btn.type = 'button';
+      btn.addEventListener('click', () => { closeDropdown(); openModal(project); });
+      li.append(btn);
+      allProjectsList.append(li);
     });
   }
   function openDropdown(){
     allProjectsList.classList.add('open');
-    allProjectsBtn.setAttribute('aria-expanded','true');
+    allProjectsBtn.setAttribute('aria-expanded', 'true');
   }
   function closeDropdown(){
     allProjectsList.classList.remove('open');
-    allProjectsBtn.setAttribute('aria-expanded','false');
+    allProjectsBtn.setAttribute('aria-expanded', 'false');
   }
-  allProjectsBtn.addEventListener('click', (e)=>{
+  allProjectsBtn.addEventListener('click', e => {
     e.stopPropagation();
     allProjectsList.classList.contains('open') ? closeDropdown() : openDropdown();
   });
-  document.addEventListener('click', (e)=>{
-    if(!allProjectsList.contains(e.target) && e.target!==allProjectsBtn) closeDropdown();
+  document.addEventListener('click', e => {
+    if (!allProjectsList.contains(e.target) && e.target !== allProjectsBtn) closeDropdown();
   });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDropdown(); });
 
+  /* ---------- load data ---------- */
   fetch('assets/projects/projects.json')
     .then(res => {
-      if(!res.ok) throw new Error('Could not load projects.json');
+      if (!res.ok) throw new Error('Could not load projects.json');
       return res.json();
     })
-    .then(projects => {
-      renderProjects(projects);
-      populateDropdown(projects);
+    .then(data => {
+      projects = data.map((p, i) => Object.assign({}, p, { _i: i }));
+      refresh();
     })
     .catch(err => {
-      grid.innerHTML = '<p class="status">Could not load projects. If you\'re viewing this file directly (file://), '
-        + 'run a local server, or push it to GitHub Pages, where it will load normally.</p>';
+      grid.innerHTML = '';
+      grid.append(el('p', 'status', "Could not load projects. If you're viewing this file directly (file://), run a local server, or push it to GitHub Pages, where it will load normally."));
       console.error(err);
     });
 
-  const teamList = document.getElementById('teamList');
   function renderTeam(members){
     teamList.innerHTML = '';
-    if(!members.length){
-      teamList.innerHTML = '<li class="status">No team members listed yet.</li>';
+    if (!members.length) {
+      teamList.append(el('li', 'status', 'No team members listed yet.'));
       return;
     }
-    members.forEach(member=>{
+    members.forEach(member => {
       const li = document.createElement('li');
-      const name = document.createElement('span');
-      name.className = 'team-name';
-      name.textContent = member.name || '';
-      li.appendChild(name);
-
-      if (member.rollNo) {
-        const roll = document.createElement('span');
-        roll.className = 'team-roll';
-        roll.textContent = 'Roll No: ' + member.rollNo;
-        li.appendChild(roll);
-      }
-
-      if (member.role) {
-        const role = document.createElement('span');
-        role.className = 'team-role';
-        role.textContent = member.role;
-        li.appendChild(role);
-      }
-      teamList.appendChild(li);
+      li.append(el('span', 'team-name', member.name || ''));
+      if (member.rollNo) li.append(el('span', 'team-roll', 'Roll No: ' + member.rollNo));
+      if (member.role) li.append(el('span', 'team-role', member.role));
+      teamList.append(li);
     });
   }
   fetch('assets/team/team.json')
     .then(res => {
-      if(!res.ok) throw new Error('Could not load team.json');
+      if (!res.ok) throw new Error('Could not load team.json');
       return res.json();
     })
     .then(renderTeam)
     .catch(err => {
-      teamList.innerHTML = '<li class="status">Could not load team details.</li>';
+      teamList.innerHTML = '';
+      teamList.append(el('li', 'status', 'Could not load team details.'));
       console.error(err);
     });
 </script>
